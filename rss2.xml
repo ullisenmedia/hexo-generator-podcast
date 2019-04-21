@@ -34,6 +34,7 @@
       <itunes:explicit>{{ post.explicit }}</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:episode>{{ post.episode }}</itunes:episode>
+      <content:encoded><![CDATA[{{ post.extras }}]]></content:encoded>
       <psc:chapters version="1.2" xmlns:psc="http://podlove.org/simple-chapters">
         {% for chapter in post.chapters %}
           <psc:chapter start="{{ chapter[0] }}" title="{{ chapter[1] | xml_escape }}" />
