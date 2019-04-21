@@ -1,46 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
-  <channel>
-    <title>{{ config.title | xml_escape }}</title>
-    <link>{{ config.url }}{{ config.baseurl }}/</link>
-    <copyright>{{ config.copyright }}</copyright>
-    <itunes:type>episodic</itunes:type>
-    <itunes:author>{{ config.author }}</itunes:author>
-    <itunes:summary>{{ config.description | xml_escape }}</itunes:summary>
-    <itunes:subtitle>{{ config.description | xml_escape }}</itunes:subtitle>
-    <itunes:keywords>{{ config.keywords }}</itunes:keywords>
-    <itunes:owner>
-      <itunes:name>{{ config.podcast.owner }}</itunes:name>
-      <itunes:email>{{ config.podcast.email }}</itunes:email>
-    </itunes:owner>
-    <itunes:image href="{{ config.url }}{{ config.default_thumb }}" />
-    {% for category in config.podcast.category %}
-    <itunes:category text="{{ category }}" />
-    {% endfor %}
-    <itunes:explicit>{{ config.podcast.explicit }}</itunes:explicit>
-    <language>{{ config.podcast.language }}</language>
-    {% for post in podcast_posts %}
-    <item>
-      <title>{{ post.title | xml_escape}}</title>
-      <description> {{ post.description | strip_html | xml_escape }} </description>
-      <itunes:author> {{ config.author }}</itunes:author>
-      <itunes:subtitle> {{ post.summary }}</itunes:subtitle>
-      <itunes:summary> {{ post.summary | strip_html | xml_escape }} </itunes:summary>
-      <itunes:image href="{{ config.podcast.url }}{{ post.thumbnail }}" />
-      <enclosure url="{{ config.podcast.url }}{{ post.media }}" length="{{ post.length }}" type="{{ post.mediatype }}"/>
-      <guid></guid>
-      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-      <itunes:duration>{{ post.duration }}</itunes:duration>
-      <itunes:explicit>{{ post.explicit }}</itunes:explicit>
-      <itunes:episodeType>full</itunes:episodeType>
-      <itunes:episode>{{ post.episode }}</itunes:episode>
-      <content:encoded><![CDATA[{{ post.extras }}]]></content:encoded>
-      <psc:chapters version="1.2" xmlns:psc="http://podlove.org/simple-chapters">
-        {% for chapter in post.chapters %}
-          <psc:chapter start="{{ chapter[0] }}" title="{{ chapter[1] | xml_escape }}" />
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+    <channel>
+        <generator>https://weluvtrap.com</generator>
+        <lastBuildDate>{{ lastBuild | date_to_rfc822 }}</lastBuildDate>
+        <title>{{ config.title | xml_escape }}</title>
+        <link>{{ config.url }}{{ config.baseurl }}/</link>
+        <copyright>{{ config.copyright }}</copyright>
+        <googleplay:author>{{ config.author }}</googleplay:author>
+        <googleplay:email>{{ config.podcast.email }}</googleplay:email>
+        <googleplay:image href="{{ config.podcast.thumbnail_url }}" />
+        <itunes:type>episodic</itunes:type>
+        <itunes:author>{{ config.author }}</itunes:author>
+        <itunes:summary>{{ config.description | xml_escape }}</itunes:summary>
+        <itunes:subtitle>{{ config.description | xml_escape }}</itunes:subtitle>
+        <itunes:keywords>{{ config.keywords }}</itunes:keywords>
+        <itunes:owner>
+            <itunes:name>{{ config.podcast.owner }}</itunes:name>
+            <itunes:email>{{ config.podcast.email }}</itunes:email>
+        </itunes:owner>
+        <itunes:image href="{{ config.podcast.thumbnail_url }}" />
+        <image>
+            <url>{{ config.podcast.thumbnail_url }}</url>
+            <title>The Trapkast</title>
+            <link>{{ config.url }}{{ config.baseurl }}</link>
+        </image>
+        {% for category in config.podcast.category %}
+        <googleplay:category text="{{ category }}" />
+        <itunes:category text="{{ category }}" />
         {% endfor %}
-      </psc:chapters>
-    </item>
-    {% endfor %}
-  </channel>
+        <itunes:explicit>{{ config.podcast.explicit }}</itunes:explicit>
+        <language>{{ config.podcast.language }}</language>
+        {% for post in podcast_posts %}
+        <item>
+            <guid isPermaLink="false">{{ post.guid }}</guid>
+            <title>{{ post.title | xml_escape}}</title>
+            <description> {{ post.description | strip_html | xml_escape }} </description>
+            <itunes:author> {{ config.author }}</itunes:author>
+            <itunes:subtitle> {{ post.summary }}</itunes:subtitle>
+            <itunes:summary> {{ post.summary | strip_html | xml_escape }} </itunes:summary>
+            <itunes:image href="{{ post.thumbnail }}" />
+            <enclosure url="{{ post.media.high }}" length="{{ post.length }}" type="{{ post.mediatype }}"/>
+            <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+            <itunes:duration>{{ post.duration }}</itunes:duration>
+            <itunes:explicit>{{ post.explicit }}</itunes:explicit>
+            <itunes:episodeType>full</itunes:episodeType>
+            <itunes:episode>{{ post.episode }}</itunes:episode>
+            <content:encoded><![CDATA[{{ post.extras | safe}}]]></content:encoded>
+            <psc:chapters version="1.2" xmlns:psc="http://podlove.org/simple-chapters">
+                {% for chapter in post.chapters %}
+                <psc:chapter start="{{ chapter[0] }}" title="{{ chapter[1] | xml_escape }}" />
+                {% endfor %}
+            </psc:chapters>
+        </item>
+        {% endfor %}
+    </channel>
 </rss>
