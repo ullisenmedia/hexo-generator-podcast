@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+     xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" 
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:spotify="http://www.spotify.com/ns/rss"
+     version="2.0">
     <channel>
         <generator>https://weluvtrap.com</generator>
         <lastBuildDate>{{ lastBuild | date_to_rfc822 }}</lastBuildDate>
         <title>{{ config.title | xml_escape }}</title>
         <link>{{ config.url }}{{ config.baseurl }}/</link>
         <copyright>{{ config.copyright }}</copyright>
+        <description>
+            {{ config.description | xml_escape }}
+        </description>
         <googleplay:author>{{ config.author }}</googleplay:author>
         <googleplay:email>{{ config.podcast.email }}</googleplay:email>
         <googleplay:image href="{{ config.podcast.thumbnail_url }}" />
