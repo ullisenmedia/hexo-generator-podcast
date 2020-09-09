@@ -39,7 +39,7 @@
         <language>{{ config.podcast.language }}</language>
         {% for post in podcast_posts %}
         <item>
-            <guid isPermaLink="false">{{ post.guid }}</guid>
+            <guid isPermaLink="false">{{ post.guid || post.uuid }}</guid>
             <title>{{ post.title | xml_escape}}</title>
             <description> {{ post.description | strip_html | xml_escape }} </description>
             <itunes:author> {{ config.author }}</itunes:author>
